@@ -9,7 +9,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
-    <link rel="stylesheet" href="styles.css?v=12">
+    <link rel="stylesheet" href="styles.css?v=13">
   </head>
   <body>
     <nav class="menu-rail" aria-label="Primary">
@@ -40,12 +40,22 @@
         </svg>
         <span>Settings</span>
       </button>
-      <button class="menu-item map-menu-item" type="button" data-panel="map-panel">
+      <button class="menu-item" type="button" data-panel="map-panel">
         <svg aria-hidden="true" viewBox="0 0 24 24">
           <path d="M4 5l5-2 6 2 5-2v16l-5 2-6-2-5 2V5z" />
           <path d="M9 3v16M15 5v16" />
         </svg>
         <span>Map</span>
+      </button>
+      <button class="theme-toggle" id="theme-toggle" type="button" aria-label="Turn on dark mode" aria-pressed="false">
+        <svg class="theme-icon sun-icon" aria-hidden="true" viewBox="0 0 24 24">
+          <circle cx="12" cy="12" r="4" />
+          <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41" />
+        </svg>
+        <svg class="theme-icon moon-icon" aria-hidden="true" viewBox="0 0 24 24">
+          <path d="M20 15.2A8.5 8.5 0 0 1 8.8 4a7 7 0 1 0 11.2 11.2z" />
+        </svg>
+        <span>Dark</span>
       </button>
     </nav>
 
@@ -174,6 +184,6 @@
     </main>
 
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-    <script src="app.js?v=12"></script>
+    <script src="app.js?v=13"></script>
   </body>
 </html>

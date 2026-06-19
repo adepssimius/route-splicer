@@ -77,6 +77,7 @@ button {
 
 .menu-toggle,
 .menu-item,
+.theme-toggle,
 .rail-close {
   border: 1px solid var(--line-strong);
   background: var(--bg);
@@ -128,7 +129,8 @@ button {
   display: inline;
 }
 
-.menu-item {
+.menu-item,
+.theme-toggle {
   display: flex;
   width: 50px;
   min-height: 50px;
@@ -143,12 +145,14 @@ button {
   transition: width 180ms ease;
 }
 
-.menu-rail.expanded .menu-item {
+.menu-rail.expanded .menu-item,
+.menu-rail.expanded .theme-toggle {
   width: 100%;
   justify-content: flex-start;
 }
 
 .menu-item svg,
+.theme-toggle svg,
 .rail-close svg {
   width: 22px;
   height: 22px;
@@ -161,17 +165,20 @@ button {
 }
 
 .menu-item span,
+.theme-toggle span,
 .rail-close span {
   display: none;
 }
 
 .menu-rail.expanded .menu-item span,
+.menu-rail.expanded .theme-toggle span,
 .menu-rail.expanded .rail-close span {
   display: inline;
 }
 
 .menu-item.active,
 .menu-item:hover,
+.theme-toggle:hover,
 .rail-close:hover {
   color: var(--bg);
   background: var(--ink);
@@ -186,8 +193,17 @@ button {
   padding: 0;
 }
 
-.map-menu-item {
+.theme-toggle {
   margin-top: auto;
+}
+
+.moon-icon,
+.dark-mode .sun-icon {
+  display: none;
+}
+
+.dark-mode .moon-icon {
+  display: block;
 }
 
 .menu-rail.expanded .rail-close {
@@ -739,19 +755,17 @@ button:disabled {
   }
 
   .menu-toggle,
-  .menu-item {
+  .menu-item,
+  .theme-toggle {
     width: 42px;
     min-height: 42px;
     font-size: 0.66rem;
   }
 
   .menu-rail.expanded .menu-toggle,
-  .menu-rail.expanded .menu-item {
+  .menu-rail.expanded .menu-item,
+  .menu-rail.expanded .theme-toggle {
     width: 100%;
-  }
-
-  .map-menu-item {
-    display: flex;
   }
 
   .shell {

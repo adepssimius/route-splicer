@@ -39,6 +39,7 @@ const elements = {
   segmentsDropZone: document.querySelector("#segments-drop-zone"),
   uploadButton: document.querySelector("#upload-button"),
   menuToggle: document.querySelector(".menu-toggle"),
+  themeToggle: document.querySelector("#theme-toggle"),
   menuItems: Array.from(document.querySelectorAll(".menu-item")),
   drawerPanels: Array.from(document.querySelectorAll(".drawer-panel")),
 };
@@ -73,6 +74,13 @@ function initializeTheme() {
 
 function applyTheme(isDark) {
   document.documentElement.classList.toggle("dark-mode", isDark);
+  elements.darkMode.checked = isDark;
+  elements.themeToggle.setAttribute("aria-pressed", String(isDark));
+  elements.themeToggle.setAttribute(
+    "aria-label",
+    isDark ? "Turn off dark mode" : "Turn on dark mode",
+  );
+  elements.themeToggle.querySelector("span").textContent = isDark ? "Light" : "Dark";
   localStorage.setItem("route-splicer-theme", isDark ? "dark" : "light");
 }
 
@@ -1051,6 +1059,7 @@ elements.threshold.addEventListener("input", render);
 elements.duplicateWaypoints.addEventListener("change", render);
 elements.skipDuplicateJoinPoints.addEventListener("change", render);
 elements.darkMode.addEventListener("change", () => applyTheme(elements.darkMode.checked));
+elements.themeToggle.addEventListener("click", () => applyTheme(!elements.darkMode.checked));
 elements.downloadGpx.addEventListener("click", downloadGpx);
 elements.downloadKml.addEventListener("click", downloadKml);
 elements.downloadGeoJson.addEventListener("click", downloadGeoJson);
