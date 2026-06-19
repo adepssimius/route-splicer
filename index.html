@@ -1,0 +1,174 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>r̶o̶u̶t̶e̶/̶s̶p̶l̶i̶c̶e̶r̶</title>
+    <link rel="icon" href="data:,">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+    <link rel="stylesheet" href="styles.css?v=11">
+  </head>
+  <body>
+    <nav class="menu-rail" aria-label="Primary">
+      <div class="rail-head">
+        <button class="menu-toggle" type="button" aria-label="Toggle menu" aria-expanded="false">
+          <span class="toggle-short">r/s</span>
+          <span class="toggle-full">route/splicer</span>
+        </button>
+        <button class="rail-close" type="button" aria-label="Collapse menu">
+          <svg aria-hidden="true" viewBox="0 0 24 24">
+            <path d="M18 6L6 18M6 6l12 12" />
+          </svg>
+        </button>
+      </div>
+      <button class="menu-item active" type="button" data-panel="segments-panel">
+        <svg aria-hidden="true" viewBox="0 0 24 24">
+          <path d="M3 8c4-5 6 5 10 0s6 5 8 0" />
+          <path d="M3 16c4-5 6 5 10 0s6 5 8 0" />
+        </svg>
+        <span>Segments</span>
+      </button>
+      <button class="menu-item" type="button" data-panel="settings-panel">
+        <svg aria-hidden="true" viewBox="0 0 24 24">
+          <path d="M4 6h16M4 12h16M4 18h16" />
+          <circle cx="9" cy="6" r="2" />
+          <circle cx="15" cy="12" r="2" />
+          <circle cx="7" cy="18" r="2" />
+        </svg>
+        <span>Settings</span>
+      </button>
+      <button class="menu-item map-menu-item" type="button" data-panel="map-panel">
+        <svg aria-hidden="true" viewBox="0 0 24 24">
+          <path d="M4 5l5-2 6 2 5-2v16l-5 2-6-2-5 2V5z" />
+          <path d="M9 3v16M15 5v16" />
+        </svg>
+        <span>Map</span>
+      </button>
+    </nav>
+
+    <main class="shell">
+      <section class="hero">
+        <div>
+          <label class="filename-field" for="route-name">
+            <span class="filename-icon" aria-hidden="true">✎</span>
+            <input id="route-name" type="text" spellcheck="false" placeholder="20260618-route-splicer-output" value="20260618-route-splicer-output">
+          </label>
+          <p class="lede">
+            Add route files, choose lap counts, validate joins, preview the route,
+            and download a single continuous GPX for your watch.
+          </p>
+        </div>
+        <div class="hero-export">
+          <div class="hero-card">
+            <span>Total</span>
+            <strong id="total-distance">0.00 mi</strong>
+            <small id="total-distance-km">0.00 km</small>
+          </div>
+          <div class="download-group" aria-label="Download route">
+            <button id="download-gpx" class="download-button" type="button" disabled>
+              <span aria-hidden="true">↓</span> GPX
+            </button>
+            <button id="download-kml" class="download-button" type="button" disabled>
+              <span aria-hidden="true">↓</span> KML
+            </button>
+            <button id="download-geojson" class="download-button" type="button" disabled>
+              <span aria-hidden="true">↓</span> GeoJSON
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <section class="workspace">
+        <aside class="drawer" id="app-drawer" aria-label="Route tools">
+          <section class="drawer-panel active" id="segments-panel">
+            <div class="section-header">
+              <h2>Segments</h2>
+              <span id="segment-count">No files</span>
+            </div>
+
+            <div class="drop-zone" id="segments-drop-zone">
+              <div class="drop-zone-copy">
+                <span>Drop route files here</span>
+                <small>GPX, GeoJSON, or KML. Or upload from disk.</small>
+              </div>
+              <label class="upload-button" id="upload-button">
+                <span>Upload</span>
+                <input id="gpx-file" class="file-input" type="file" accept=".gpx,.geojson,.json,.kml,application/gpx+xml,application/geo+json,application/vnd.google-earth.kml+xml">
+              </label>
+            </div>
+
+            <div id="segments" class="segments empty" aria-live="polite">
+              <p>Add a route file to start building the course.</p>
+            </div>
+          </section>
+
+          <section class="drawer-panel" id="settings-panel">
+            <div class="section-header">
+              <h2>Settings</h2>
+              <span id="validation-summary">Waiting for files</span>
+            </div>
+
+            <div class="setting-row">
+              <label for="join-threshold">Join warning threshold</label>
+              <div class="number-input">
+                <input id="join-threshold" type="number" min="1" step="1" value="50">
+                <span>meters</span>
+              </div>
+            </div>
+
+            <label class="checkbox-row">
+              <input id="duplicate-waypoints" type="checkbox" checked>
+              <span>Duplicate waypoints for every lap</span>
+            </label>
+
+            <label class="checkbox-row">
+              <input id="skip-duplicate-join-points" type="checkbox" checked>
+              <span>Skip duplicate join points when coordinates match</span>
+            </label>
+
+            <button id="clear-all" class="secondary" type="button" disabled>
+              Clear All
+            </button>
+
+            <div class="validation-block">
+              <h3>Validation</h3>
+              <ul id="validation-list" class="validation-list"></ul>
+            </div>
+
+            <p class="privacy-note">
+              No upload happens here. GPX parsing, mapping, and export all run in
+              your browser. Map tiles load from OpenStreetMap.
+            </p>
+          </section>
+
+          <section class="drawer-panel" id="map-panel">
+            <div class="section-header">
+              <h2>Map</h2>
+              <span>Preview</span>
+            </div>
+            <div id="mobile-map"></div>
+            <p class="privacy-note">
+              The map appears beside this sidebar on larger screens and inside
+              this panel on mobile.
+            </p>
+          </section>
+        </aside>
+
+        <section class="map-card">
+          <div id="map"></div>
+          <div class="map-legend">
+            <span><i class="swatch input"></i> Input files</span>
+            <span><i class="swatch output"></i> Combined route</span>
+            <span><i class="dot warn"></i> Join warning</span>
+          </div>
+        </section>
+      </section>
+    </main>
+
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script src="app.js?v=11"></script>
+  </body>
+</html>
