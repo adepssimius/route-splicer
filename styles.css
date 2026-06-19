@@ -618,7 +618,7 @@ button:disabled {
 }
 
 .swatch.input {
-  background: #777777;
+  background: var(--strava);
 }
 
 .swatch.output {

@@ -8,6 +8,7 @@ const state = {
   mobileMap: null,
   activePanel: "segments-panel",
   draggedSegmentId: null,
+  highlightedSegmentId: null,
   layers: {
     desktop: null,
     mobile: null,
@@ -563,6 +564,11 @@ function renderSegments() {
       row.className = "segment";
       row.draggable = true;
       row.dataset.segmentId = segment.id;
+      row.tabIndex = 0;
+      row.addEventListener("mouseenter", () => highlightSegment(segment.id));
+      row.addEventListener("mouseleave", () => highlightSegment(null));
+      row.addEventListener("focus", () => highlightSegment(segment.id));
+      row.addEventListener("blur", () => highlightSegment(null));
       row.addEventListener("dragstart", (event) => {
         state.draggedSegmentId = segment.id;
         row.classList.add("dragging");
@@ -656,6 +662,15 @@ function moveSegment(sourceId, targetId) {
   render();
 }
 
+function highlightSegment(segmentId) {
+  if (state.highlightedSegmentId === segmentId) {
+    return;
+  }
+
+  state.highlightedSegmentId = segmentId;
+  renderMap();
+}
+
 function renderTotals() {
   const combined = getCombinedPoints();
   const total = pathDistance(combined);
@@ -709,11 +724,12 @@ function renderMapInstance(map, layers, container) {
 
   for (const segment of state.segments) {
     const latLngs = segment.points.map((point) => [point.lat, point.lon]);
+    const isHighlighted = segment.id === state.highlightedSegmentId;
     boundsPoints.push(...latLngs);
     L.polyline(latLngs, {
-      color: "#247a88",
-      weight: 4,
-      opacity: 0.62,
+      color: isHighlighted ? "#ffd84d" : "#fc4c02",
+      weight: isHighlighted ? 7 : 4,
+      opacity: isHighlighted ? 1 : 0.78,
     })
       .bindTooltip(segment.name)
       .addTo(layers.inputs);
