@@ -12,6 +12,18 @@
   --shadow: 0 24px 80px rgba(0, 0, 0, 0.12);
 }
 
+:root.dark-mode {
+  --bg: #050505;
+  --ink: #ffffff;
+  --muted: #999999;
+  --faint: #101010;
+  --line: #242424;
+  --line-strong: #ffffff;
+  --danger: #ff6f61;
+  --ok: #72d68a;
+  --shadow: 0 24px 80px rgba(255, 255, 255, 0.08);
+}
+
 * {
   box-sizing: border-box;
 }
@@ -534,6 +546,10 @@ button:disabled {
   height: 100%;
   min-height: 0;
   filter: grayscale(1) contrast(1.05);
+}
+
+.dark-mode .leaflet-tile {
+  filter: invert(1) grayscale(1) contrast(1.05);
 }
 
 #mobile-map {

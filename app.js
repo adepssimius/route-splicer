@@ -25,6 +25,7 @@ const elements = {
   threshold: document.querySelector("#join-threshold"),
   duplicateWaypoints: document.querySelector("#duplicate-waypoints"),
   skipDuplicateJoinPoints: document.querySelector("#skip-duplicate-join-points"),
+  darkMode: document.querySelector("#dark-mode"),
   downloadGpx: document.querySelector("#download-gpx"),
   downloadKml: document.querySelector("#download-kml"),
   downloadGeoJson: document.querySelector("#download-geojson"),
@@ -60,7 +61,19 @@ function initializePageChrome() {
   const defaultName = getDefaultRouteName();
   elements.routeName.placeholder = defaultName;
   elements.routeName.value = elements.routeName.value.trim() || defaultName;
+  initializeTheme();
   unregisterLegacyDownloadWorker();
+}
+
+function initializeTheme() {
+  const isDark = localStorage.getItem("route-splicer-theme") === "dark";
+  elements.darkMode.checked = isDark;
+  applyTheme(isDark);
+}
+
+function applyTheme(isDark) {
+  document.documentElement.classList.toggle("dark-mode", isDark);
+  localStorage.setItem("route-splicer-theme", isDark ? "dark" : "light");
 }
 
 function unregisterLegacyDownloadWorker() {
@@ -1037,6 +1050,7 @@ function render() {
 elements.threshold.addEventListener("input", render);
 elements.duplicateWaypoints.addEventListener("change", render);
 elements.skipDuplicateJoinPoints.addEventListener("change", render);
+elements.darkMode.addEventListener("change", () => applyTheme(elements.darkMode.checked));
 elements.downloadGpx.addEventListener("click", downloadGpx);
 elements.downloadKml.addEventListener("click", downloadKml);
 elements.downloadGeoJson.addEventListener("click", downloadGeoJson);
