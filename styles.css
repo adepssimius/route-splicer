@@ -92,10 +92,10 @@ button {
   align-items: center;
   justify-content: center;
   overflow: hidden;
-  padding: 0 10px;
-  font-size: 0.78rem;
+  padding: 0 2px;
+  font-size: 0.9rem;
   font-weight: 800;
-  letter-spacing: 0.08em;
+  letter-spacing: 0.02em;
   text-transform: uppercase;
   flex: 1 1 auto;
   transition: width 180ms ease;
@@ -103,8 +103,8 @@ button {
 
 .menu-toggle::after {
   position: absolute;
-  right: 8px;
-  left: 8px;
+  right: 5px;
+  left: 5px;
   top: 50%;
   height: 2px;
   background: currentColor;
@@ -117,8 +117,13 @@ button {
   white-space: nowrap;
 }
 
+.menu-toggle .toggle-short {
+  display: inline-block;
+  white-space: nowrap;
+}
+
 .menu-rail.expanded .menu-toggle {
-  justify-content: flex-start;
+  justify-content: center;
 }
 
 .menu-rail.expanded .menu-toggle .toggle-short {
@@ -195,6 +200,14 @@ button {
 
 .theme-toggle {
   margin-top: auto;
+  border: 0;
+  background: transparent;
+  color: var(--ink);
+}
+
+.theme-toggle:hover {
+  color: var(--muted);
+  background: transparent;
 }
 
 .moon-icon,
@@ -285,7 +298,7 @@ h3 {
   display: flex;
   align-items: center;
   gap: 10px;
-  max-width: 420px;
+  max-width: 720px;
   margin-bottom: 12px;
   border-bottom: 1px solid var(--line-strong);
   padding: 0 0 8px;
@@ -303,10 +316,15 @@ h3 {
   width: 100%;
   border: 0;
   padding: 0;
+  color: var(--ink);
   background: var(--bg);
   font-size: 1.05rem;
   font-weight: 600;
   outline: none;
+}
+
+.filename-field input::placeholder {
+  color: var(--muted);
 }
 
 .hero-card {
@@ -760,6 +778,17 @@ button:disabled {
     width: 42px;
     min-height: 42px;
     font-size: 0.66rem;
+  }
+
+  .menu-toggle {
+    padding: 0;
+    font-size: 0.84rem;
+    letter-spacing: 0;
+  }
+
+  .menu-toggle::after {
+    right: 4px;
+    left: 4px;
   }
 
   .menu-rail.expanded .menu-toggle,
